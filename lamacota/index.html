@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refugio Huellas Naturales | Adopción de Mascotas</title>
+    <style>
+        /* Paleta de Colores Naturales */
+        :root {
+            --primary-green: #4A6741;
+            --light-green: #7A9E7E;
+            --earth-brown: #8C6A5D;
+            --sand-bg: #F9F6F0;
+            --text-dark: #3E3E3E;
+            --white: #FFFFFF;
+        }
+
+        /* Reseteo y Tipografía */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--sand-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Barra de Menú (Header & Nav) */
+        header {
+            background-color: var(--primary-green);
+            color: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.05rem;
+            transition: color 0.3s, border-bottom 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links a:hover {
+            color: #D3E0D5;
+            border-bottom: 2px solid #D3E0D5;
+        }
+
+        /* Sección Hero */
+        .hero {
+            height: 70vh;
+            background: linear-gradient(rgba(74, 103, 65, 0.7), rgba(45, 62, 41, 0.7)), url('https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 650px;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .btn {
+            background-color: var(--earth-brown);
+            color: var(--white);
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            background-color: #725449;
+            transform: translateY(-2px);
+        }
+
+        /* Contenido Principal */
+        main {
+            max-width: 1200px;
+            margin: 5rem auto;
+            padding: 0 20px;
+            flex-grow: 1;
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 80px;
+            height: 3px;
+            background-color: var(--earth-brown);
+            display: block;
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Cuadrícula de Mascotas */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #EAE3D9;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.12);
+        }
+
+        .card img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 1.8rem;
+        }
+
+        .card-body h3 {
+            color: var(--earth-brown);
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .card-body p {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* Pie de Página (Footer) */
+        footer {
+            background-color: #2D3E29;
+            color: #D3E0D5;
+            text-align: center;
+            padding: 2.5rem 20px;
+            margin-top: auto;
+            border-top: 5px solid var(--earth-brown);
+        }
+
+        footer p {
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .footer-links {
+            margin-top: 1rem;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsividad */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de Menú -->
+    <header>
+        <nav>
+            <div class="logo">🌿 Huellas Naturales</div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#mascotas">Adopta</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Sección Hero -->
+    <section id="inicio" class="hero">
+        <h1>Conecta con la Naturaleza y tu Nuevo Mejor Amigo</h1>
+        <p>Encuentra mascotas que buscan un hogar lleno de amor. Fomentamos el bienestar animal en armonía con el medio ambiente.</p>
+        <a href="#mascotas" class="btn">Conocer Mascotas</a>
+    </section>
+
+    <!-- Contenido Principal -->
+    <main id="mascotas">
+        <h2 class="section-title">Nuestros Peludos en Adopción</h2>
+        <div class="grid">
+            <!-- Tarjeta 1 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Perro en la naturaleza">
+                <div class="card-body">
+                    <h3>Bruno</h3>
+                    <p>Mestizo de 3 años. Ama las caminatas largas por el bosque y descansar bajo la sombra de los árboles. Ideal para personas activas.</p>
+                </div>
+            </div>
+            <!-- Tarjeta 2 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Gato en un jardín">
+                <div class="card-body">
+                    <h3>Miel</h3>
+                    <p>Gatita rescatada de 1 año. Muy tranquila y observadora, perfecta para hacerte compañía en tardes de lectura o trabajo en casa.</p>
+                </div>
+            </div>
+            <!-- Tarjeta 3 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1537151608804-ea2f1a303dd5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Perro labrador negro">
+                <div class="card-body">
+                    <h3>Sombra</h3>
+                    <p>Labrador negro de 5 años. Un compañero noble, sereno y muy leal. Tiene mucha paciencia, por lo que es perfecto para familias.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Pie de Página -->
+    <footer id="contacto">
+        <p>&copy; 2026 Refugio Huellas Naturales. Todos los derechos reservados.</p>
+        <p>Lima, Perú | Promoviendo el amor animal y el respeto por la tierra.</p>
+        <div class="footer-links">
+            <a href="#">Términos de Servicio</a> | 
+            <a href="#">Política de Privacidad</a> | 
+            <a href="#">Trabaja con Nosotros</a>
+        </div>
+    </footer>
+</body>
+</html>
