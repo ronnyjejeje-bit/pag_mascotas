@@ -3,296 +3,721 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Refugio Huellas Naturales | Adopción de Mascotas</title>
+    <title>Huellas Naturales | Adopción Premium</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* Paleta de Colores Naturales */
+        /* --- VARIABLES Y RESETEO --- */
         :root {
-            --primary-green: #4A6741;
-            --light-green: #7A9E7E;
-            --earth-brown: #8C6A5D;
-            --sand-bg: #F9F6F0;
-            --text-dark: #3E3E3E;
+            --primary: #2C4C3B; /* Verde Bosque Oscuro */
+            --accent: #D4A373; /* Tono Tierra/Terracota */
+            --light-green: #E9EDC9;
+            --bg-color: #FEFAE0; /* Crema suave */
+            --text-main: #333333;
+            --text-light: #666666;
             --white: #FFFFFF;
+            --shadow-sm: 0 4px 6px rgba(0,0,0,0.05);
+            --shadow-lg: 0 15px 30px rgba(0,0,0,0.1);
+            --radius: 20px;
         }
 
-        /* Reseteo y Tipografía */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
         }
 
         body {
-            background-color: var(--sand-bg);
-            color: var(--text-dark);
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
         }
 
-        /* Barra de Menú (Header & Nav) */
+        /* --- CLASES DE ANIMACIÓN AL HACER SCROLL --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- NAVEGACIÓN --- */
         header {
-            background-color: var(--primary-green);
-            color: var(--white);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            padding: 1.5rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            z-index: 1000;
+            transition: all 0.4s ease;
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
             padding: 1rem 5%;
+        }
+
+        header.scrolled .logo, header.scrolled .nav-links a {
+            color: var(--primary);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.4s ease;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0; height: 2px;
+            bottom: -5px; left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after { width: 100%; }
+
+        .btn-nav {
+            background: var(--accent);
+            color: var(--white) !important;
+            padding: 8px 24px;
+            border-radius: 30px;
+        }
+        .btn-nav::after { display: none; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            min-height: 600px;
+            background: url('https://images.unsplash.com/photo-1544568100-847a948585b9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, rgba(44,76,59,0.9) 0%, rgba(44,76,59,0.4) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            padding: 3rem;
+            border-radius: var(--radius);
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: fadeUp 1s ease-out;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: #E9EDC9;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--white);
+            padding: 15px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(212, 163, 115, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(212, 163, 115, 0.5);
+            background: #c39262;
+        }
+
+        /* --- STATS SECTION --- */
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 4rem 5%;
+            background: var(--white);
+            margin-top: -50px;
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-text {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* --- CÓMO ADOPTAR --- */
+        .steps-section {
+            padding: 6rem 5%;
+            text-align: center;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-light);
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
             max-width: 1200px;
             margin: auto;
         }
 
-        .logo {
-            font-size: 1.6rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: 1px;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1.05rem;
-            transition: color 0.3s, border-bottom 0.3s;
-            border-bottom: 2px solid transparent;
-        }
-
-        .nav-links a:hover {
-            color: #D3E0D5;
-            border-bottom: 2px solid #D3E0D5;
-        }
-
-        /* Sección Hero */
-        .hero {
-            height: 70vh;
-            background: linear-gradient(rgba(74, 103, 65, 0.7), rgba(45, 62, 41, 0.7)), url('https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: var(--white);
-            padding: 0 20px;
-        }
-
-        .hero h1 {
-            font-size: 3.2rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 650px;
-            margin-bottom: 2rem;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-        }
-
-        .btn {
-            background-color: var(--earth-brown);
-            color: var(--white);
-            padding: 12px 30px;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: background-color 0.3s, transform 0.2s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-        }
-
-        .btn:hover {
-            background-color: #725449;
-            transform: translateY(-2px);
-        }
-
-        /* Contenido Principal */
-        main {
-            max-width: 1200px;
-            margin: 5rem auto;
-            padding: 0 20px;
-            flex-grow: 1;
-        }
-
-        .section-title {
-            text-align: center;
-            color: var(--primary-green);
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
+        .step-card {
+            background: var(--white);
+            padding: 3rem 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease;
             position: relative;
         }
 
-        .section-title::after {
-            content: '';
-            width: 80px;
-            height: 3px;
-            background-color: var(--earth-brown);
-            display: block;
-            margin: 10px auto 0;
-            border-radius: 2px;
-        }
+        .step-card:hover { transform: translateY(-10px); }
 
-        /* Cuadrícula de Mascotas */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .card {
-            background-color: var(--white);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid #EAE3D9;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.12);
-        }
-
-        .card img {
-            width: 100%;
-            height: 260px;
-            object-fit: cover;
-        }
-
-        .card-body {
-            padding: 1.8rem;
-        }
-
-        .card-body h3 {
-            color: var(--earth-brown);
+        .step-number {
+            background: var(--light-green);
+            color: var(--primary);
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-size: 1.5rem;
-            margin-bottom: 0.8rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
         }
 
-        .card-body p {
-            font-size: 1rem;
-            color: #555;
-            line-height: 1.5;
+        /* --- SECCIÓN MASCOTAS (GRID) --- */
+        .pets-section {
+            padding: 4rem 5% 8rem;
+            background: var(--white);
         }
 
-        /* Pie de Página (Footer) */
-        footer {
-            background-color: #2D3E29;
-            color: #D3E0D5;
-            text-align: center;
-            padding: 2.5rem 20px;
-            margin-top: auto;
-            border-top: 5px solid var(--earth-brown);
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
         }
 
-        footer p {
-            margin-bottom: 0.8rem;
-            font-size: 1rem;
+        .filter-btn {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .footer-links {
-            margin-top: 1rem;
-        }
-        
-        .footer-links a {
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
             color: var(--white);
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        
-        .footer-links a:hover {
-            text-decoration: underline;
         }
 
-        /* Responsividad */
+        .pet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .pet-card {
+            background: var(--bg-color);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .pet-card:hover {
+            transform: translateY(-12px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .pet-img-wrapper {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .pet-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .pet-card:hover .pet-img-wrapper img {
+            transform: scale(1.08);
+        }
+
+        .pet-badge {
+            position: absolute;
+            top: 15px; left: 15px;
+            background: var(--accent);
+            color: var(--white);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .pet-info {
+            padding: 2rem;
+            text-align: left;
+        }
+
+        .pet-info h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .pet-meta {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-outline {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pet-card:hover .btn-outline {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* --- CONTACTO / FOOTER --- */
+        .contact-section {
+            display: flex;
+            flex-wrap: wrap;
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .contact-info, .contact-form {
+            flex: 1;
+            min-width: 300px;
+            padding: 6rem 5%;
+        }
+
+        .contact-info h2 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+        .contact-info p { color: #E9EDC9; margin-bottom: 2rem; }
+
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            font-family: inherit;
+        }
+        .form-group input::placeholder, .form-group textarea::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+        .form-group textarea { height: 120px; resize: none; }
+
+        footer {
+            background: #1e3529;
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* --- MODAL AVANZADO --- */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0; visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .modal.active { opacity: 1; visibility: visible; }
+
+        .modal-content {
+            background: var(--bg-color);
+            width: 90%; max-width: 900px;
+            border-radius: var(--radius);
+            display: flex;
+            overflow: hidden;
+            transform: scale(0.9);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .modal.active .modal-content { transform: scale(1); }
+
+        .close-btn {
+            position: absolute;
+            top: 20px; right: 20px;
+            width: 40px; height: 40px;
+            background: var(--white);
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            z-index: 10;
+        }
+
+        .modal-img { width: 50%; object-fit: cover; }
+        .modal-body { width: 50%; padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+        
+        .modal-body h2 { font-size: 2.2rem; color: var(--primary); }
+        .modal-body .tags { display: flex; gap: 10px; margin: 15px 0; }
+        .modal-body .tag { background: var(--light-green); color: var(--primary); padding: 5px 12px; border-radius: 15px; font-size: 0.85rem; font-weight: 600; }
+        .modal-body p { color: var(--text-light); margin-bottom: 2rem; line-height: 1.8; }
+
+        /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            .hero h1 {
-                font-size: 2.3rem;
-            }
+            .nav-links { display: none; } /* En un proyecto real aquí iría un menú hamburguesa */
+            .hero h1 { font-size: 2.5rem; }
+            .hero-content { padding: 2rem; }
+            .modal-content { flex-direction: column; max-height: 90vh; overflow-y: auto; }
+            .modal-img { width: 100%; height: 300px; }
+            .modal-body { width: 100%; padding: 2rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Barra de Menú -->
-    <header>
-        <nav>
-            <div class="logo">🌿 Huellas Naturales</div>
-            <ul class="nav-links">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#nosotros">Nosotros</a></li>
-                <li><a href="#mascotas">Adopta</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-            </ul>
-        </nav>
+
+    <!-- Header Transparente -> Sólido -->
+    <header id="navbar">
+        <div class="logo">🌿 Huellas</div>
+        <ul class="nav-links">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#como-adoptar">Proceso</a></li>
+            <li><a href="#mascotas">Mascotas</a></li>
+            <li><a href="#contacto" class="btn-nav">Contacto</a></li>
+        </ul>
     </header>
 
-    <!-- Sección Hero -->
+    <!-- Hero Section -->
     <section id="inicio" class="hero">
-        <h1>Conecta con la Naturaleza y tu Nuevo Mejor Amigo</h1>
-        <p>Encuentra mascotas que buscan un hogar lleno de amor. Fomentamos el bienestar animal en armonía con el medio ambiente.</p>
-        <a href="#mascotas" class="btn">Conocer Mascotas</a>
+        <div class="hero-content">
+            <h1>No compres, <br>adopta amor.</h1>
+            <p>Transforma tu vida y la de un animal rescatado. Encuentra a tu compañero ideal en nuestro refugio ecológico, donde la naturaleza y el bienestar animal son uno solo.</p>
+            <a href="#mascotas" class="btn-primary">Ver Mascotas</a>
+        </div>
     </section>
 
-    <!-- Contenido Principal -->
-    <main id="mascotas">
-        <h2 class="section-title">Nuestros Peludos en Adopción</h2>
-        <div class="grid">
-            <!-- Tarjeta 1 -->
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Perro en la naturaleza">
-                <div class="card-body">
-                    <h3>Bruno</h3>
-                    <p>Mestizo de 3 años. Ama las caminatas largas por el bosque y descansar bajo la sombra de los árboles. Ideal para personas activas.</p>
-                </div>
-            </div>
-            <!-- Tarjeta 2 -->
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Gato en un jardín">
-                <div class="card-body">
-                    <h3>Miel</h3>
-                    <p>Gatita rescatada de 1 año. Muy tranquila y observadora, perfecta para hacerte compañía en tardes de lectura o trabajo en casa.</p>
-                </div>
-            </div>
-            <!-- Tarjeta 3 -->
-            <div class="card">
-                <img src="https://ichef.bbci.co.uk/ace/ws/800/cpsprodpb/15665/production/_107435678_perro1.jpg.webp" alt="Perro labrador negro">
-                <div class="card-body">
-                    <h3>Sombra</h3>
-                    <p>Labrador negro de 5 años. Un compañero noble, sereno y muy leal. Tiene mucha paciencia, por lo que es perfecto para familias.</p>
-                </div>
-            </div>
+    <!-- Estadísticas Flotantes -->
+    <div class="stats reveal">
+        <div class="stat-item">
+            <div class="stat-number">540+</div>
+            <div class="stat-text">Vidas Salvadas</div>
         </div>
-    </main>
+        <div class="stat-item">
+            <div class="stat-number">32</div>
+            <div class="stat-text">Voluntarios Activos</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-text">Amor Incondicional</div>
+        </div>
+    </div>
 
-    <!-- Pie de Página -->
-    <footer id="contacto">
-        <p>&copy; 2026 Refugio Huellas Naturales. Todos los derechos reservados.</p>
-        <p>Lima, Perú | Promoviendo el amor animal y el respeto por la tierra.</p>
-        <div class="footer-links">
-            <a href="#">Términos de Servicio</a> | 
-            <a href="#">Política de Privacidad</a> | 
-            <a href="#">Trabaja con Nosotros</a>
+    <!-- Pasos para adoptar -->
+    <section id="como-adoptar" class="steps-section">
+        <div class="section-header reveal">
+            <h2>¿Cómo adoptar?</h2>
+            <p>Hemos simplificado nuestro proceso para asegurar que nuestras mascotas lleguen a hogares amorosos y responsables lo más pronto posible.</p>
         </div>
+        <div class="steps-grid">
+            <div class="step-card reveal">
+                <div class="step-number">1</div>
+                <h3>Encuentra tu match</h3>
+                <p>Navega por nuestra galería y lee las historias de nuestros rescatados para encontrar al compañero perfecto para tu estilo de vida.</p>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-number">2</div>
+                <h3>Llena la solicitud</h3>
+                <p>Completa un breve formulario contándonos sobre ti, tu hogar y tu experiencia previa con animales.</p>
+            </div>
+            <div class="step-card reveal">
+                <div class="step-number">3</div>
+                <h3>Llévalo a casa</h3>
+                <p>Tras una rápida entrevista y aprobación, firma el acuerdo de adopción y comienza una nueva vida con tu mascota.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galería Dinámica -->
+    <section id="mascotas" class="pets-section">
+        <div class="section-header reveal">
+            <h2>Esperan por ti</h2>
+            <p>Conoce a nuestros peludos listos para darte todo su cariño.</p>
+        </div>
+        
+        <div class="filters reveal">
+            <button class="filter-btn active" data-filter="todos">Todos</button>
+            <button class="filter-btn" data-filter="perro">Perros</button>
+            <button class="filter-btn" data-filter="gato">Gatos</button>
+        </div>
+
+        <div class="pet-grid" id="pet-container">
+            <!-- Renderizado por JS -->
+        </div>
+    </section>
+
+    <!-- Contacto / Footer -->
+    <section id="contacto" class="contact-section">
+        <div class="contact-info reveal">
+            <h2>Hablemos</h2>
+            <p>¿Tienes dudas sobre el proceso de adopción, quieres ser voluntario o hacer una donación? Escríbenos y te responderemos a la brevedad.</p>
+            <p>📍 Av. Naturaleza 123, Lima, Perú</p>
+            <p>📞 +51 987 654 321</p>
+            <p>✉️ hola@huellasnaturales.org</p>
+        </div>
+        <div class="contact-form reveal">
+            <form onsubmit="event.preventDefault(); alert('¡Mensaje enviado con éxito!');">
+                <div class="form-group">
+                    <input type="text" placeholder="Tu Nombre" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Tu Correo Electrónico" required>
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="¿En qué te podemos ayudar?" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">Enviar Mensaje</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Refugio Huellas Naturales. Hecho con ❤️ para los animales.</p>
     </footer>
+
+    <!-- Modal Dinámico -->
+    <div class="modal" id="petModal">
+        <div class="modal-content">
+            <div class="close-btn" onclick="closeModal()">&times;</div>
+            <img src="" alt="" class="modal-img" id="m-img">
+            <div class="modal-body">
+                <h2 id="m-name">Nombre</h2>
+                <div class="tags">
+                    <span class="tag" id="m-age">Edad</span>
+                    <span class="tag" id="m-type">Tipo</span>
+                    <span class="tag" id="m-size">Tamaño</span>
+                </div>
+                <p id="m-desc">Descripción...</p>
+                <button class="btn-primary" onclick="alert('¡Iniciando proceso de adopción!'); closeModal();">Iniciar Adopción</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // 1. Efecto Navbar al hacer Scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 2. Animaciones Scroll Reveal (Intersection Observer)
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Animamos solo una vez
+                }
+            });
+        };
+        const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+        const revealObserver = new IntersectionObserver(revealCallback, revealOptions);
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // 3. Base de Datos Avanzada
+        const pets = [
+            { id: 1, name: 'Bruno', type: 'perro', age: '3 años', size: 'Mediano', badge: 'Muy Dócil', img: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', desc: 'Bruno es un mestizo encantador que ama las caminatas al atardecer. Convive perfecto con niños y otros perros. Ya está vacunado y castrado.' },
+            { id: 2, name: 'Miel', type: 'gato', age: '8 meses', size: 'Pequeño', badge: 'Cachorro', img: 'https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', desc: 'Miel fue rescatada de la calle y ahora busca un hogar calentito. Es extremadamente ronroneadora y le encanta dormir en las faldas de los humanos.' },
+            { id: 3, name: 'Sombra', type: 'perro', age: '5 años', size: 'Grande', badge: 'Urgente', img: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', desc: 'Sombra lleva 2 años en el refugio. Es un perro sereno, protector y leal. Ideal para una casa con patio grande. ¡Merece una familia ya!' },
+            { id: 4, name: 'Luna', type: 'gato', age: '2 años', size: 'Mediano', badge: '', img: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', desc: 'Luna es elegante y un poco independiente al principio, pero una vez que toma confianza es la gata más leal del mundo.' },
+            { id: 5, name: 'Toby', type: 'perro', age: '1 año', size: 'Pequeño', badge: 'Juguetón', img: 'https://blog.mascotaysalud.com/wp-content/uploads/2019/05/CACHORRO-BEAGLE.jpg', desc: 'Lleno de energía, Toby es ideal para personas que salen a correr o familias con niños activos. Aprende trucos muy rápido.' },
+            { id: 6, name: 'Simba', type: 'gato', age: '4 años', size: 'Grande', badge: '', img: 'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80', desc: 'El rey de las siestas. Simba pesa 6 kilos de puro amor. No necesita mucho ejercicio, solo un buen sillón y mimos constantes.' }
+        ];
+
+        // 4. Lógica de Renderizado y Filtros
+        const petContainer = document.getElementById('pet-container');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        function renderPets(filter = 'todos') {
+            petContainer.innerHTML = '';
+            
+            pets.forEach((pet, index) => {
+                if (filter === 'todos' || pet.type === filter) {
+                    const badgeHtml = pet.badge ? `<div class="pet-badge">${pet.badge}</div>` : '';
+                    const typeIcon = pet.type === 'perro' ? '🐕' : '🐈';
+                    
+                    const petHTML = `
+                        <div class="pet-card reveal active" style="transition-delay: ${index * 0.1}s">
+                            ${badgeHtml}
+                            <div class="pet-img-wrapper">
+                                <img src="${pet.img}" alt="${pet.name}">
+                            </div>
+                            <div class="pet-info">
+                                <h3>${pet.name}</h3>
+                                <div class="pet-meta">
+                                    <span>📅 ${pet.age}</span>
+                                    <span>${typeIcon} ${pet.size}</span>
+                                </div>
+                                <button class="btn-outline" onclick="openModal(${pet.id})">Conocer a ${pet.name}</button>
+                            </div>
+                        </div>
+                    `;
+                    petContainer.innerHTML += petHTML;
+                }
+            });
+        }
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderPets(btn.dataset.filter);
+            });
+        });
+
+        // 5. Lógica del Modal
+        const modal = document.getElementById('petModal');
+        
+        function openModal(id) {
+            const pet = pets.find(p => p.id === id);
+            document.getElementById('m-img').src = pet.img;
+            document.getElementById('m-name').innerText = pet.name;
+            document.getElementById('m-age').innerText = pet.age;
+            document.getElementById('m-type').innerText = pet.type === 'perro' ? 'Perro' : 'Gato';
+            document.getElementById('m-size').innerText = pet.size;
+            document.getElementById('m-desc').innerText = pet.desc;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Inicializar
+        renderPets();
+    </script>
 </body>
 </html>
